@@ -21,13 +21,14 @@ import urllib.parse
 
 import serial
 from functools import partial
+import time
 
 try:
     import termios
 except ImportError:
     termios = None
 
-__version__ = '0.6'
+__version__ = '0.7'
 
 
 class SerialTransport(asyncio.Transport):
@@ -545,7 +546,7 @@ async def read_with_timeout(
     data = b''
     while time.time() - start_t < timeout and len(data) < n:
         try:
-            data += await asyncio.wait_for(reader.read(1), timeout=timeout):
+            data += await asyncio.wait_for(reader.read(1), timeout=timeout)
         except TimeoutError:
             break
     return data
